@@ -58,3 +58,24 @@ function checkExtensionState() {
     btn.style.backgroundColor = START_BTN_COLOR;
   }
 }
+
+chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  // Add retry logic
+  function sendMessageWithRetry(attempt = 1) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { type: "startTracking" },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          if (attempt < 3) {
+            setTimeout(() => sendMessageWithRetry(attempt + 1), 100);
+          }
+          console.log("Error sending message:", chrome.runtime.lastError);
+        } else {
+          console.log("Message sent successfully");
+        }
+      }
+    );
+  }
+  sendMessageWithRetry();
+});

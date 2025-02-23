@@ -25,7 +25,7 @@ chrome.runtime.onConnect.addListener((port) => {
         socket &&
         socket.readyState === WebSocket.OPEN
       ) {
-        socket.send(JSON.stringify({ frame: message.frame }));
+        socket.send(JSON.stringify({ image: message.image }));
       }
     });
 
@@ -44,8 +44,9 @@ function startWebSocketConnection() {
 
   socket.onmessage = (event) => {
     try {
-      const data = event.data;
-      if (contentPort) contentPort.postMessage({ data: JSON.parse(data) });
+      const data = JSON.parse(event.data);
+      if (contentPort)
+        contentPort.postMessage({ action: "moveCursor", data: data });
     } catch (err) {
       console.error("Error processing websocket message: ", err);
     }

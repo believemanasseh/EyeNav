@@ -11,8 +11,10 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.state === true) {
     await startTracking();
     port.postMessage({ state: true });
-  } else {
+  } else if (message.state === false) {
     await stopTracking();
+  } else if (message.action === "moveCursor") {
+    moveCursor(message.data.coordinates.x, message.data.coordinates.y);
   }
 });
 
@@ -67,4 +69,14 @@ function startProcessingImageFrames() {
     processImageFrames,
     1000 / FRAME_RATE
   );
+}
+
+function moveCursor(x, y) {
+  // Convert relative coordinates (0-1) to screen coordinates
+  const screenX = window.screen.width * x;
+  const screenY = window.screen.height * y;
+
+  chrome.input.mouse.move(screenX, screenY, {
+    type: "move",
+  });
 }
