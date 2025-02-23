@@ -1,7 +1,8 @@
 import cv2
-from core.blink_detector import detect_blinks
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from utils.helpers import process_image
+
+from src.core.blink_detector import detect_blinks
+from src.utils.helpers import process_image
 
 app = FastAPI(docs_url="/")
 

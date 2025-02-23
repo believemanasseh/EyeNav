@@ -2,12 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+COPY requirements.txt ./
+
+RUN pip install -r requirements.txt
+
 COPY . .
 
-RUN pip install poetry
+EXPOSE 8085
 
-RUN poetry install
-
-EXPOSE 8080
-
-CMD ["uvicorn", "src:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["fastapi", "dev", "src/app.py", "--port", "8085"]
