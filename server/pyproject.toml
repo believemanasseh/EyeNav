@@ -9,7 +9,13 @@ license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "fastapi[standard] (>=0.115.8,<0.116.0)"
+    "fastapi[standard] (>=0.115.8,<0.116.0)",
+    "transformers (==4.49.0)",
+    "pillow (==11.1.0)",
+    "torch (==2.6.0)",
+    "mediapipe (==0.10.21)",
+    "opencv-python (==4.11.0.86)",
+    "uvicorn (==0.34.0)",
 ]
 
 
